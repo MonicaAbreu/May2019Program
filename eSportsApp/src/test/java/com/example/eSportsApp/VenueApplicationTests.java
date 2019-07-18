@@ -27,14 +27,14 @@ public class VenueApplicationTests {
 		System.out.println("Venue test case scenarios");
 	}
 	
-	@Test
+/*	@Test
 	public void addVenueUsingService() {
 		venue.setVenueId(3);
 		venue.setLocation("China");
 		venue.setEvent("CS:GO Asia Championships");
 		venue = venueService.registerOrUpdateVenue(venue);
 		assertNotNull(venue);
-	}
+	}*/
 	
 /*	@Test
 	public void findByVenueIdUsingService() {

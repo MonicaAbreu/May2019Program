@@ -27,14 +27,14 @@ public class GameApplicationTests {
 		System.out.println("Game test case scenarios");
 	}
 	
-	@Test
+/*	@Test
 	public void addGameUsingService() {
 		game.setGameId(1);
 		game.setDate("30/07/2019");
 		game.setType("Best of 5");
 		game = gameService.registerOrUpdatePlayer(game);
 		assertNotNull(game);
-	}
+	}*/
 	
 /*	@Test
 	public void findByGameIdUsingService() {

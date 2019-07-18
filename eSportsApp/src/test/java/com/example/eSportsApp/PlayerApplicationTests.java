@@ -48,7 +48,7 @@ public class PlayerApplicationTests {
 	
 /*	@Test
 	public void deleteByPlayerIdUsingService() {
-		int playerId = 46;
+		int playerId = 48;
 		playerService.deleteByPlayerId(playerId);
 		assertNull(playerService.findByPlayerId(playerId));
 	}*/

@@ -1,9 +1,16 @@
 package com.example.eSportsApp.entities;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name="JPA1_VENUE")
 @EntityListeners({VenueLifecycleListener.class})
-public class Venue {
+public class Venue implements Serializable {
 	
 	@Value("-1")
 	private int venueId;
@@ -26,8 +33,18 @@ public class Venue {
 	@Value("Default name of event")
 	private String event;
 	
+	//One to Many - One venue -> Many games
+	private Set<Game> games = new HashSet<>();
 	
-	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="currentVenue")
+	public Set<Game> getGames() {
+		return games;
+	}
+
+	public void setGames(Set<Game> games) {
+		this.games = games;
+	}
+
 	public Venue() {
 		System.out.println("Venue created");
 	}

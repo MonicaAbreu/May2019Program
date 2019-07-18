@@ -1,11 +1,20 @@
 package com.example.eSportsApp.entities;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name="JPA1_TEAM")
 @EntityListeners({TeamLifecycleListener.class})
-public class Team {
+public class Team implements Serializable {
 
 	@Value("-1")
 	private int teamId;
@@ -33,6 +42,31 @@ public class Team {
 	
 	@Value("Default team coach")
 	private String coach;
+	
+	//Many to One - each team belongs to one game
+	private Game currentGame;
+	
+	@ManyToOne
+	@JoinColumn(name="FK_GameId")
+	public Game getCurrentGame() {
+		return currentGame;
+	}
+
+	public void setCurrentGame(Game currentGame) {
+		this.currentGame = currentGame;
+	}
+
+	//One to many - One team -> Many players
+	private Set<Player> members = new HashSet<>();
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="currentTeam")
+	public Set<Player> getMembers() {
+		return members;
+	}
+	
+	public void setMembers(Set<Player> members) {
+		this.members = members;
+	}
 	
 	public Team() {
 		System.out.println("Team created");

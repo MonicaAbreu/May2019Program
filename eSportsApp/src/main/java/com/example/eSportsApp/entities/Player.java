@@ -8,6 +8,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -40,14 +42,27 @@ public class Player implements Serializable {
 	private String nationality;
 	
 	
+	//Many to one - each player belongs to one team
+	private Team currentTeam;
 	
+	@ManyToOne
+	@JoinColumn(name="FK_TeamId")
+	public Team getCurrentTeam() {
+		return currentTeam;
+	}
+
+	public void setCurrentTeam(Team currentTeam) {
+		this.currentTeam = currentTeam;
+	}
+
 	public Player() {
 		System.out.println("Player created");
 	}
 	
 	@Id //define this as the PK
 	@Column(name="player_id") //column name
-	@GeneratedValue(strategy=GenerationType.AUTO) //auto-numbering
+	@GeneratedValue(strategy=GenerationType.AUTO) //auto-numbering with a random starting number.
+	//if I want to start from 1 use GenerationType.IDENTITY
 	public int getPlayerId() {
 		return playerId;
 	}
