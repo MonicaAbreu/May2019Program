@@ -3,6 +3,8 @@ package com.mastek.training.hrapp;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +59,12 @@ public class HrAppApplicationTests {
 		assertNotNull(empService.findByEmpno(empno));
 	}
 	
-	@Test
+/*	@Test
 	public void deleteByEmpnoUsingService() {
 		int empno = 2;
 		empService.deleteByEmpno(empno);
 		assertNull(empService.findByEmpno(empno));
-	}
+	}*/
 	
 /*	@Test
 	public void checkFetchBySalary() {

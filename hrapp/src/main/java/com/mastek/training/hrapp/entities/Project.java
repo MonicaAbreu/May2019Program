@@ -1,5 +1,6 @@
 package com.mastek.training.hrapp.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,18 +10,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.ws.rs.FormParam;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+//@Component
+
 @Entity
 @Table(name="JPA_Project")
-@Component
 @Scope("prototype") // one copy for each test case
-public class Project {
+@XmlRootElement
+public class Project implements Serializable {
 
 	private int projectId;
+	
+	@FormParam("name")
 	private String name;
+	
+	@FormParam("customerName")
 	private String customerName;
 	
 	//Many to Many
@@ -30,6 +40,7 @@ public class Project {
 	//Many to Many - configuring the association for both the entities Employee and Project
 	//mapped by - check the configuration for Many to Many association in Employee class getAssignments() method
 	@ManyToMany(mappedBy="assignments")
+	@XmlTransient //ignore the collections while using api
 	public Set<Employee> getTeam() {
 		return team;
 	}
