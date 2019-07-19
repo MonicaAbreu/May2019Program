@@ -1,10 +1,14 @@
 package com.mastek.training.hrapp.apis;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.mastek.training.hrapp.entities.Department;
 import com.mastek.training.hrapp.entities.Employee;
+import com.mastek.training.hrapp.entities.Project;
 import com.mastek.training.hrapp.repositories.EmployeeRepository;
 
 //@COmponent: indicate to Spring to create an object of this class as component
@@ -31,6 +37,13 @@ public class EmployeeService {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@Autowired
+	private ProjectService projectService;
+	
 	
 	public EmployeeService() {
 		System.out.println("Employee Service Created");
@@ -78,5 +91,51 @@ public class EmployeeService {
 	@Path("/delete/{empno}")
 	public void deleteByEmpno(@PathParam("empno") int empno) {
 		employeeRepository.deleteById(empno);
+	}
+
+	//spring ensures that db session is open until all the operations in this method across repositories are completed
+	//used to fetch all collections which are initialised using Lazy initialisation 
+	@Transactional
+	@POST //HTTP method
+	@Path("/assign/department") //URL 
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED) //input format
+	@Produces(MediaType.APPLICATION_JSON) //output format
+	public Employee assignDepartment(@FormParam("empno") int empno,
+									 @FormParam("deptno") int deptno) {
+		try {
+			//fetch the entities to be associated
+			Employee emp = findByEmpno(empno);
+			Department dept = departmentService.findByDeptno(deptno);
+			//manage the associations
+			dept.getMembers().add(emp); //one assigned with many
+			emp.setCurrentDepartment(dept); //many assigned with one
+			//update the entity to save the association
+			emp = registerOrUpdateEmployee(emp);
+			return emp;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Transactional
+	@POST //HTTP method
+	@Path("/assign/project") //URL 
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED) //input format
+	@Produces(MediaType.APPLICATION_JSON) //output format
+	public Set<Project> assignProject(@FormParam("empno") int empno,
+									  @FormParam("projectId") int projectId) {
+		try {
+			Employee emp = findByEmpno(empno);
+			Project proj = projectService.findByProjectId(projectId);
+			//since it is Many to Many, we just need to assign in on direction
+			emp.getAssignments().add(proj);
+			//update the association in the join table
+			emp = registerOrUpdateEmployee(emp);
+			return emp.getAssignments();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

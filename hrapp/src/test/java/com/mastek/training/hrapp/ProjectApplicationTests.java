@@ -19,8 +19,8 @@ public class ProjectApplicationTests {
 	@Autowired
 	ProjectService projectService;
 	
-	@Autowired
-	Project proj;
+	//@Autowired
+	//Project proj;
 	
 	@Test
 	public void exampleProjectTest() {
@@ -29,7 +29,8 @@ public class ProjectApplicationTests {
 	
 	@Test
 	public void addProjectUsingService() {
-		proj.setProjectId(1);
+		Project proj = new Project();
+		//proj.setProjectId(1);
 		proj.setName("Project test");
 		proj.setCustomerName("Customer Example");
 		proj = projectService.registerOrUpdateProject(proj);
@@ -38,7 +39,7 @@ public class ProjectApplicationTests {
 	
 	@Test 
 	public void findByProjectIDUsingService() {
-		int projectId = 1;
+		int projectId = 6;
 		assertNotNull(projectService.findByProjectId(projectId));
 	}
 	

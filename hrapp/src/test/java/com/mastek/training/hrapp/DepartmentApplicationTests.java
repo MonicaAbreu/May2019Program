@@ -22,8 +22,8 @@ public class DepartmentApplicationTests {
 	@Autowired
 	DepartmentService departmentService;
 	
-	@Autowired
-	Department dept;
+	//@Autowired
+	//Department dept;
 	
 
 	@Test
@@ -33,7 +33,8 @@ public class DepartmentApplicationTests {
 	
 	@Test
 	public void addDepartmentUsingService() {
-		dept.setDeptno(1);;
+		Department dept = new Department();
+		//dept.setDeptno(1);;
 		dept.setLocation("Location Example");
 		dept.setName("Department Name");
 		dept = departmentService.registerOrUpdateDepartment(dept);
@@ -42,7 +43,7 @@ public class DepartmentApplicationTests {
 	
 	@Test 
 	public void findByDepartmentNoUsingService() {
-		int departmentno = 1;
+		int departmentno = 3;
 		assertNotNull(departmentService.findByDeptno(departmentno));
 	}
 	

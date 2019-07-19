@@ -1,9 +1,9 @@
 package com.mastek.training.hrapp;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,17 +38,18 @@ public class HrAppApplicationTests {
 	@Autowired
 	ProjectService projectService;
 	
-	@Autowired
-	Employee emp;
+	//@Autowired
+	//Employee emp;
 	
 	
 	@Test
 	public void addEmployeeUsingService() {
-		emp.setEmpno(3); 
-		emp.setName("New Emp 3");
+		Employee emp = new Employee();
+		//emp.setEmpno(3); comment this to add the entity with auto-incrementing id
+		emp.setName("New Emp");
 		emp.setSalary(5000);
 		emp = empService.registerOrUpdateEmployee(emp);
-		projectService.findByProjectId(1);
+		projectService.findByProjectId(6);
 		deptService.findByDeptno(3);
 		assertNotNull(emp);
 	}
@@ -113,7 +114,23 @@ public class HrAppApplicationTests {
 		emp2.getAssignments().add(p1);
 		
 		deptService.registerOrUpdateDepartment(d1);
-		
+	}
+	
+	@Test
+	public void assignDepartmentToEmployee() {
+		int empno = 8;
+		int deptno = 3;
+		Employee emp = empService.assignDepartment(empno, deptno);
+		assertNotNull(emp.getCurrentDepartment());
+	}
+	
+	@Test
+	public void assignProjectToEmployee() {
+		int empno = 4;
+		int projectId = 21;
+		Set<Project> projects = empService.assignProject(empno, projectId);
+		assertNotNull(projects);
+		System.out.println(projects);
 	}
 	
 	
