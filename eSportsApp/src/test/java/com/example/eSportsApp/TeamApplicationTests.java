@@ -29,15 +29,35 @@ public class TeamApplicationTests {
 	
 /*	@Test
 	public void addTeamUsingService() {
-		team.setTeamId(3);
-		team.setName("Luminosity Gaming");
-		team.setAlias("LG");
-		team.setRank(3);
-		team.setCoach("Rafael Fernandes");
-		team = teamService.registerOrUpdateTeam(team);
-		assertNotNull(team);
-	}
-	
+		Team team1 = new Team();
+		team1.setTeamId(1);
+		team1.setName("Ninjas in Pyjamas");
+		team1.setAlias("NiP");
+		team1.setRank(1);
+		team1.setCoach("Faruk Pita");
+		team1 = teamService.registerOrUpdateTeam(team1);
+		assertNotNull(team1);
+		
+		Team team2 = new Team();
+		team2.setTeamId(2);
+		team2.setName("Natus Vincere");
+		team2.setAlias("NaVi");
+		team2.setRank(2);
+		team2.setCoach("Mykhailo Blagin");
+		team2 = teamService.registerOrUpdateTeam(team2);
+		assertNotNull(team2);
+		
+		Team team3 = new Team();
+		team3.setTeamId(3);
+		team3.setName("Luminosity Gaming");
+		team3.setAlias("LG");
+		team3.setRank(3);
+		team3.setCoach("Rafael Fernandes");
+		team3 = teamService.registerOrUpdateTeam(team3);
+		assertNotNull(team3);
+	}*/
+
+/*
 	@Test
 	public void findByTeamIdUsingService() {
 		int teamId = 50;

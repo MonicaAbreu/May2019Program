@@ -12,31 +12,36 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.ws.rs.FormParam;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
+
 @Scope("prototype")
 @Entity
 @Table(name="JPA1_VENUE")
 @EntityListeners({VenueLifecycleListener.class})
+@XmlRootElement
 public class Venue implements Serializable {
 	
-	@Value("-1")
 	private int venueId;
 	
-	@Value("Default location")
+	@FormParam("location")
 	private String location;
 	
-	@Value("Default name of event")
+	@FormParam("event")
 	private String event;
 	
 	//One to Many - One venue -> Many games
 	private Set<Game> games = new HashSet<>();
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="currentVenue")
+	@XmlTransient
 	public Set<Game> getGames() {
 		return games;
 	}

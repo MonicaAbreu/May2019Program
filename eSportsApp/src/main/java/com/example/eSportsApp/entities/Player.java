@@ -11,34 +11,37 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.ws.rs.FormParam;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
+
 @Scope("prototype")
 @Entity
 @Table(name="JPA1_PLAYER")
 @EntityListeners({PlayerLifecycleListener.class})
+@XmlRootElement
 public class Player implements Serializable {
 	
-	@Value("-1")
 	private int playerId;
 	
-	@Value("Default player name")
+	@FormParam("name")
 	private String name;
 	
-	@Value("Default player alias")
+	@FormParam("alias")
 	private String alias;
 	
-	@Value("Default player role")
+	@FormParam("role")
 	private String role;
 	
-	@Value("-1")
+	@FormParam("age")
 	private int age;
 	
-	@Value("Default player nationality")
+	@FormParam("nationality")
 	private String nationality;
 	
 	

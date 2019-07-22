@@ -13,53 +13,59 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.ws.rs.FormParam;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
+
 @Scope("prototype")
 @Entity
 @Table(name="JPA1_TEAM")
 @EntityListeners({TeamLifecycleListener.class})
+@XmlRootElement
 public class Team implements Serializable {
 
-	@Value("-1")
 	private int teamId;
 	
-	@Value("Default team name")
+	@FormParam("name")
 	private String name;
 	
-	@Value("Default team alias")
+	@FormParam("alias")
 	private String alias;
 	
-	@Value("-1")
+	@FormParam("rank")
 	private int rank;
 	
-	@Value("Default team coach")
+	@FormParam("coach")
 	private String coach;
 	
-	//Many to One - each team belongs to one game
-	private Game currentGame;
+	//Many to Many - Many teams have many games
+	private Set<Game> teamGames = new HashSet<>();
 	
-	@ManyToOne
-	@JoinColumn(name="FK_GameId")
-	public Game getCurrentGame() {
-		return currentGame;
+	@ManyToMany(mappedBy="gameTeams")
+	@XmlTransient
+	public Set<Game> getTeamGames() {
+		return teamGames;
 	}
 
-	public void setCurrentGame(Game currentGame) {
-		this.currentGame = currentGame;
+	public void setTeamGames(Set<Game> teamGames) {
+		this.teamGames = teamGames;
 	}
 
 	//One to many - One team -> Many players
 	private Set<Player> members = new HashSet<>();
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="currentTeam")
+	@XmlTransient
 	public Set<Player> getMembers() {
 		return members;
 	}
