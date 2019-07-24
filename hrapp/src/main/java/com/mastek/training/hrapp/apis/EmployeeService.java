@@ -109,7 +109,7 @@ public class EmployeeService {
 			//manage the associations
 			dept.getMembers().add(emp); //one assigned with many
 			emp.setCurrentDepartment(dept); //many assigned with one
-			//update the entity to save the association
+				
 			emp = registerOrUpdateEmployee(emp);
 			return emp;
 		} catch (Exception e) {

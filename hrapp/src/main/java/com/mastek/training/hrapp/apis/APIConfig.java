@@ -8,7 +8,12 @@ import org.springframework.stereotype.Component;
 public class APIConfig extends ResourceConfig{
 	public APIConfig() {
 		//register each service class in ResourceConfig
-		register(EmployeeService.class, ProjectService.class, DepartmentService.class);
+		register(EmployeeService.class);
+		register(ProjectService.class);
+		register(DepartmentService.class);
+		
+		//register the CORS Settings on the server
+		register(CORSFilter.class);
 	}
 
 }
